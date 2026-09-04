@@ -52,10 +52,19 @@ app.use((err, _req, res, _next) => {
 });
 
 const port = Number(process.env.PORT || 4000);
+
+// 1. Connexion MongoDB (déconnectée du app.listen pour fonctionner sur Vercel)
 mongoose
   .connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/nobonime')
-  .then(() => app.listen(port, () => console.log(`Nobonime API listening on ${port}`)))
+  .then(() => console.log('MongoDB connecté'))
   .catch((error) => {
     console.error('MongoDB unavailable; API will still start in degraded mode.', error.message);
-    app.listen(port);
   });
+
+// 2. Écoute locale uniquement (Ignoré par Vercel qui utilise l'export)
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(port, () => console.log(`Nobonime API listening locally on ${port}`));
+}
+
+// 3. Export indispensable pour les Serverless Functions Vercel (Format ES Module)
+export default app;
