@@ -3,14 +3,17 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": "20.x"
+  },
   "scripts": {
     "dev": "node --watch src/server.js",
     "start": "node src/server.js"
   },
   "dependencies": {
-    "axios": "^1.7.9",
+    "axios": "latest",
     "bcryptjs": "latest",
-    "cheerio": "^1.0.0",
+    "cheerio": "latest",
     "cors": "latest",
     "dotenv": "latest",
     "express": "latest",
