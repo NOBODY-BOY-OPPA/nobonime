@@ -1,0 +1,18 @@
+import { Router } from 'express';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import { z } from 'zod';
+import User from '../models/User.js';
+import { auth } from '../middleware/auth.js';
+const router = Router();
+const input = z.object({ email: z.string().email(), password: z.string().min(8), name: z.string().min(2).max(80).optional() });
+const tokenFor = (user) => jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET || 'development-secret', { expiresIn: '7d' });
+const watchEntry = z.object({ mediaId: z.string().min(1), mediaType: z.enum(['anime', 'movie', 'series']).optional(), title: z.string().max(200).optional(), episode: z.number().int().min(1).optional(), progressSeconds: z.number().min(0).optional(), durationSeconds: z.number().min(0).optional() });
+const chapterEntry = z.object({ mangaId: z.string().min(1), chapterId: z.string().min(1), page: z.number().int().min(1) });
+router.post('/register', async (req, res, next) => { try { const body = input.parse(req.body); const exists = await User.findOne({ email: body.email }); if (exists) return res.status(409).json({ message: 'Email already registered' }); const user = await User.create({ email: body.email, name: body.name, passwordHash: await bcrypt.hash(body.password, 12) }); res.status(201).json({ token: tokenFor(user), user: { id: user.id, email: user.email, name: user.name } }); } catch (e) { next(e); } });
+router.post('/login', async (req, res, next) => { try { const body = input.pick({ email: true, password: true }).parse(req.body); const user = await User.findOne({ email: body.email }); if (!user || !(await bcrypt.compare(body.password, user.passwordHash))) return res.status(401).json({ message: 'Invalid email or password' }); res.json({ token: tokenFor(user), user: { id: user.id, email: user.email, name: user.name } }); } catch (e) { next(e); } });
+router.get('/me', auth(), async (req, res, next) => { try { const user = await User.findById(req.user.id).select('-passwordHash'); res.json(user); } catch (e) { next(e); } });
+router.get('/history', auth(), async (req, res, next) => { try { const user = await User.findById(req.user.id).select('watchHistory chapterProgress'); res.json(user || { watchHistory: [], chapterProgress: [] }); } catch (e) { next(e); } });
+router.put('/history/watch', auth(), async (req, res, next) => { try { const entry = watchEntry.parse(req.body); const user = await User.findById(req.user.id); if (!user) return res.status(404).json({ message: 'User not found' }); user.watchHistory = user.watchHistory.filter((item) => !(item.mediaId === entry.mediaId && item.episode === (entry.episode || 1))); user.watchHistory.unshift({ ...entry, watchedAt: new Date() }); user.watchHistory = user.watchHistory.slice(0, 100); await user.save(); res.json(user.watchHistory[0]); } catch (e) { next(e); } });
+router.put('/history/chapter', auth(), async (req, res, next) => { try { const entry = chapterEntry.parse(req.body); const user = await User.findById(req.user.id); if (!user) return res.status(404).json({ message: 'User not found' }); user.chapterProgress = user.chapterProgress.filter((item) => !(item.mangaId === entry.mangaId && item.chapterId === entry.chapterId)); user.chapterProgress.unshift({ ...entry, updatedAt: new Date() }); user.chapterProgress = user.chapterProgress.slice(0, 200); await user.save(); res.json(user.chapterProgress[0]); } catch (e) { next(e); } });
+export default router;

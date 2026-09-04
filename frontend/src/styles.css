@@ -1,0 +1,94 @@
+:root{font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:#eef2ff;background:#080a12;font-synthesis:none}
+*{box-sizing:border-box}
+body{margin:0;min-width:320px;background:radial-gradient(circle at 70% -10%,#2a3156 0,#101426 34%,#080a12 78%);min-height:100vh}
+button,input{font:inherit}
+
+/* ── Layout ─────────────────────────────────────────────── */
+.app{display:flex;min-height:100vh;overflow-x:hidden}
+
+.sidebar{position:fixed;z-index:3;inset:16px auto 16px 16px;width:232px;padding:28px 16px;display:flex;flex-direction:column;border:1px solid #ffffff18;border-radius:24px;background:#0e1221d9;backdrop-filter:blur(24px);box-shadow:0 20px 50px #0004}
+.brand{color:#fff;font-weight:800;font-size:18px;letter-spacing:4px;margin:5px 12px 48px;text-decoration:none;white-space:nowrap}
+.brand span{color:#a78bfa}
+nav{display:grid;gap:8px}
+nav a,.settings{display:flex;align-items:center;gap:13px;color:#8992b0;text-decoration:none;padding:13px;border-radius:13px;transition:.2s}
+nav a:hover,nav a.active,.settings:hover,.settings:focus{color:#fff;background:#ffffff12}
+
+.content{margin-left:264px;width:calc(100% - 264px);padding:24px clamp(20px,5vw,72px) 60px}
+
+/* ── Header ─────────────────────────────────────────────── */
+header{display:flex;align-items:center;gap:20px;justify-content:flex-end}
+.search{margin-right:auto;display:flex;gap:10px;align-items:center;background:#ffffff0b;border:1px solid #ffffff16;border-radius:14px;padding:11px 14px;width:min(410px,62vw)}
+.search input{background:none;border:0;outline:0;color:#fff;width:100%;min-width:0}
+.icon{display:flex;align-items:center;gap:7px;background:none;border:0;color:#c4c9df;cursor:pointer}
+.user-badge{display:flex;align-items:center;gap:6px;color:#a78bfa;font-size:13px;font-weight:600}
+
+/* ── Hero ───────────────────────────────────────────────── */
+.hero{margin-top:clamp(80px,15vh,170px);max-width:720px}
+.hero.compact{margin-top:clamp(70px,12vh,130px)}
+.eyebrow{color:#a78bfa;letter-spacing:3px;font-size:12px;font-weight:700}
+.hero h1{font-size:clamp(40px,6vw,76px);line-height:1.02;margin:18px 0}
+.hero p:not(.eyebrow){color:#abb3ce;font-size:18px;line-height:1.6}
+.button{display:inline-flex;gap:8px;align-items:center;background:#a78bfa;color:#0b0d18;text-decoration:none;padding:13px 18px;border-radius:10px;font-weight:700;margin-top:18px;border:0;cursor:pointer}
+.button:disabled{cursor:not-allowed}
+.link-btn{background:none;border:0;color:#a78bfa;cursor:pointer;text-decoration:underline;padding:0;font:inherit}
+
+/* ── Catalog ────────────────────────────────────────────── */
+.section-title{display:flex;justify-content:space-between;align-items:center;margin:clamp(70px,10vw,120px) 0 25px}
+.section-title h2{margin:0}
+.section-title a{color:#a78bfa;text-decoration:none}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:18px}
+.card{color:#fff;text-decoration:none;background:#ffffff0b;border:1px solid #ffffff10;border-radius:16px;overflow:hidden;transition:transform .2s,border-color .2s}
+.card:hover{transform:translateY(-4px);border-color:#a78bfa99}
+.card img{width:100%;height:240px;object-fit:cover;background:#161b2d}
+.card-placeholder{height:80px;background:linear-gradient(135deg,#1a2040,#0e1221)}
+.card div{padding:13px}
+.card b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card span{display:block;color:#8f98b8;font-size:12px;margin-top:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* ── Notices ────────────────────────────────────────────── */
+.page-title{margin:55px 0 25px}
+.empty,.notice{padding:28px;border:1px solid #ffffff12;border-radius:16px;background:#ffffff08;color:#9da7c4}
+.error{color:#ffb4b4;border-color:#9e4a5a}
+
+/* ── Video player ───────────────────────────────────────── */
+.player{background:#000;border-radius:18px;padding:12px;max-width:1000px;border:1px solid #ffffff12}
+.player video{width:100%;aspect-ratio:16/9;display:block}
+.player-status{padding:40px;text-align:center;color:#aeb6d2}
+.player small{display:block;padding:12px 4px 2px;color:#77819f}
+.skip-actions{display:flex;gap:10px;padding:12px 4px 4px;flex-wrap:wrap}
+.skip-actions .button{padding:8px 14px;font-size:13px;margin-top:0}
+.aniskip-overlay{position:absolute;bottom:56px;right:16px;display:flex;flex-direction:column;gap:6px}
+.aniskip-overlay span{background:#a78bfa22;border:1px solid #a78bfa55;color:#a78bfa;font-size:11px;padding:4px 8px;border-radius:6px;font-weight:700}
+
+/* ── Manga reader ───────────────────────────────────────── */
+.reader{display:flex;flex-direction:column;align-items:center;gap:8px}
+.reader img{max-width:min(900px,100%);display:block;background:#222}
+
+/* ── Admin ──────────────────────────────────────────────── */
+.admin-form{display:grid;gap:12px;max-width:520px;margin-top:28px}
+.admin-form input{padding:13px 14px;border:1px solid #ffffff18;border-radius:10px;background:#ffffff0b;color:#eef2ff}
+.admin-form input::placeholder{color:#6b7494}
+
+/* ── Expanding hover menu ───────────────────────────────── */
+.hover-menu summary{list-style:none;cursor:pointer;color:#8992b0;padding:10px 13px;border-radius:10px;transition:.2s}
+.hover-menu summary:hover{color:#fff;background:#ffffff12}
+.hover-menu[open] summary{color:#fff}
+.hover-menu > div{padding:8px 0 4px 16px;display:grid;gap:6px}
+
+/* ── Responsive ─────────────────────────────────────────── */
+@media(max-width:760px){
+  .sidebar{inset:10px auto 10px 10px;width:62px;padding:20px 7px;border-radius:18px}
+  .brand{font-size:0;margin:5px 9px 40px}
+  .brand span{font-size:18px}
+  .sidebar nav a,.settings{font-size:0;justify-content:center;padding:13px 8px}
+  .user-badge{display:none}
+  .content{margin-left:82px;width:calc(100% - 82px);padding:16px 16px 40px}
+  header{gap:12px}
+  .search{width:auto;flex:1}
+  .search input{font-size:14px}
+  .hero{margin-top:12vh}
+  .hero h1{font-size:clamp(36px,11vw,56px)}
+  .cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .card img{height:190px}
+  .section-title{margin-top:70px}
+}

@@ -1,0 +1,1 @@
+export default function AniSkipOverlay({ skips = [] }) { return skips.length ? <div className="aniskip-overlay">{skips.map((skip) => <span key={skip.skipType}>{skip.skipType.toUpperCase()}</span>)}</div> : null; }
