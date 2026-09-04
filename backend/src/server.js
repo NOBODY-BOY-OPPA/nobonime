@@ -7,7 +7,6 @@ import mongoose from 'mongoose';
 
 // Import des routes (le .js est obligatoire avec "type": "module")
 import catalogRoutes from './routes/catalog.js';
-import promoRoutes from './routes/promo.js';
 import userRoutes from './routes/userRoutes.js';
 import videoRoutes from './routes/videoRoutes.js';
 import authRoutes from './routes/auth.js';
@@ -37,7 +36,6 @@ app.get('/health', (_req, res) => res.json({ ok: true, service: 'nobonime-api' }
 app.use('/api/auth', authRoutes);
 app.use('/api/catalog', catalogRoutes);
 app.use('/api/manga', mangaRoutes);
-app.use('/api/promo', promoRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/videos', videoRoutes); // Relie bien à tes endpoints animés !
 
